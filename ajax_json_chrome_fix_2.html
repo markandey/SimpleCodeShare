@@ -1,0 +1,56 @@
+<html>
+	<head>
+	<script>
+		var fake_counter=0;
+		function getsearch()
+		{
+			fake_counter=fake_counter+1
+			var search_url='http://search.twitter.com/search.json?callback=mycallback&count='+fake_counter+'&q=';
+			/*search_url will fetch you JSON with callback name as mycallback*/
+			var query='';
+			query=document.getElementById('query').value;
+			search_url=search_url+query;
+			var scrpt_div = document.getElementById('script_div');
+			scrpt_div.innerHTML = '';
+			var scrpt_ele = document.createElement('script');
+			scrpt_ele.src = search_url;
+			scrpt_div.appendChild(scrpt_ele);
+			var result_div = document.getElementById('result_div');
+			result_div.innerHTML = 'loading....';
+		}
+		function mycallback(data)
+		{
+			/*write code here to do the JOB*/
+			var html='';
+			for(var i=0;i<data.results.length;i++) 
+			{ 
+				var tweet=data.results[i].text/*aah.. luxury of jus using the data, no parsing*/
+				html=html+tweet+'<br/>';
+				
+			}
+			var result_div = document.getElementById('result_div');
+			result_div.innerHTML = html;
+		}
+	</script>
+	</head>
+	<body>
+	<div>
+	<form  action="javascript:void(0)"> 
+		<input id="query" type="text"></input> 
+		<input type="submit" onclick="getsearch();" value="search"></input> 
+	 </form> 
+	</div>
+	<div id="result_div">
+		<!--Here your Result will appear 
+		
+		-->
+	</div>
+	<div id="script_div">
+		<!--Here your JSON script will come 
+			
+			<script src="http://search.twitter.com/search.json?callback=mycallback&q=hello">
+			</script>
+		-->
+	</div>
+	</body>
+</html>
